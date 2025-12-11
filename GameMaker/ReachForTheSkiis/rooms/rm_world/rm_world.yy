@@ -1,29 +1,25 @@
 {
   "$GMRoom":"v1",
-  "%Name":"Room1",
+  "%Name":"rm_world",
   "creationCodeFile":"",
   "inheritCode":false,
   "inheritCreationOrder":false,
   "inheritLayers":false,
   "instanceCreationOrder":[
-    {"name":"inst_4F0FA3C8","path":"rooms/Room1/Room1.yy",},
-    {"name":"inst_6D1E0388","path":"rooms/Room1/Room1.yy",},
-    {"name":"inst_15ABFE7C","path":"rooms/Room1/Room1.yy",},
-    {"name":"inst_5D920C92","path":"rooms/Room1/Room1.yy",},
+    {"name":"inst_5D920C92","path":"rooms/rm_world/rm_world.yy",},
+    {"name":"inst_10C529CA","path":"rooms/rm_world/rm_world.yy",},
   ],
   "isDnd":false,
   "layers":[
     {"$GMRInstanceLayer":"","%Name":"Instances","depth":0,"effectEnabled":true,"effectType":null,"gridX":32,"gridY":32,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"instances":[
-        {"$GMRInstance":"v4","%Name":"inst_4F0FA3C8","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_4F0FA3C8","objectId":{"name":"obj_player","path":"objects/obj_player/obj_player.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":288.0,"y":64.0,},
-        {"$GMRInstance":"v4","%Name":"inst_6D1E0388","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_6D1E0388","objectId":{"name":"obj_display","path":"objects/obj_display/obj_display.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":160.0,"y":128.0,},
-        {"$GMRInstance":"v4","%Name":"inst_15ABFE7C","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_15ABFE7C","objectId":{"name":"obj_gmlive","path":"objects/obj_gmlive/obj_gmlive.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":64.0,"y":32.0,},
-        {"$GMRInstance":"v4","%Name":"inst_5D920C92","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_5D920C92","objectId":{"name":"obj_debug_world_grid","path":"objects/obj_debug_world_grid/obj_debug_world_grid.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":64.0,"y":96.0,},
+        {"$GMRInstance":"v4","%Name":"inst_5D920C92","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_5D920C92","objectId":{"name":"obj_debug_world_grid","path":"objects/obj_debug_world_grid/obj_debug_world_grid.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":64.0,"y":32.0,},
+        {"$GMRInstance":"v4","%Name":"inst_10C529CA","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_10C529CA","objectId":{"name":"obj_world_controller","path":"objects/obj_world_controller/obj_world_controller.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":96.0,"y":32.0,},
       ],"layers":[],"name":"Instances","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
   ],
-  "name":"Room1",
+  "name":"rm_world",
   "parent":{
-    "name":"ReachForTheSkiis",
-    "path":"ReachForTheSkiis.yyp",
+    "name":"World",
+    "path":"folders/Rooms/World.yy",
   },
   "parentRoom":null,
   "physicsSettings":{

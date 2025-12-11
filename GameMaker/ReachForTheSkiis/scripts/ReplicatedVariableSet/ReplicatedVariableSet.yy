@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"ReplicatedVariableSet",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"ReplicatedVariableSet",
+  "parent":{
+    "name":"Network",
+    "path":"folders/Network.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

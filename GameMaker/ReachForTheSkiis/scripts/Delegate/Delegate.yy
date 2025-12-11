@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"Delegate",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Delegate",
+  "parent":{
+    "name":"Util",
+    "path":"folders/Util.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

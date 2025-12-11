@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"GameMode",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"GameMode",
+  "parent":{
+    "name":"World",
+    "path":"folders/Rooms/World.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

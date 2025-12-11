@@ -8,11 +8,11 @@
   "name":"obj_display",
   "overriddenProperties":[],
   "parent":{
-    "name":"ReachForTheSkiis",
-    "path":"ReachForTheSkiis.yyp",
+    "name":"Player",
+    "path":"folders/Player.yy",
   },
   "parentObjectId":null,
-  "persistent":false,
+  "persistent":true,
   "physicsAngularDamping":0.1,
   "physicsDensity":0.5,
   "physicsFriction":0.2,
@@ -31,5 +31,5 @@
   "solid":false,
   "spriteId":null,
   "spriteMaskId":null,
-  "visible":true,
+  "visible":false,
 }

@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"server_commands",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"server_commands",
+  "parent":{
+    "name":"ReachForTheSkiis",
+    "path":"ReachForTheSkiis.yyp",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

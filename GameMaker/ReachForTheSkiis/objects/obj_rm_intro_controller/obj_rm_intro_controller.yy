@@ -1,18 +1,16 @@
 {
   "$GMObject":"",
-  "%Name":"obj_player",
+  "%Name":"obj_rm_intro_controller",
   "eventList":[
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":2,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":2,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"obj_player",
+  "name":"obj_rm_intro_controller",
   "overriddenProperties":[],
   "parent":{
-    "name":"Player",
-    "path":"folders/Player.yy",
+    "name":"Intro",
+    "path":"folders/Rooms/Intro.yy",
   },
   "parentObjectId":null,
   "persistent":false,
@@ -32,10 +30,7 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":{
-    "name":"spr_player",
-    "path":"sprites/spr_player/spr_player.yy",
-  },
+  "spriteId":null,
   "spriteMaskId":null,
   "visible":true,
 }

@@ -8,8 +8,8 @@
   "name":"obj_debug_world_grid",
   "overriddenProperties":[],
   "parent":{
-    "name":"ReachForTheSkiis",
-    "path":"ReachForTheSkiis.yyp",
+    "name":"World",
+    "path":"folders/Rooms/World.yy",
   },
   "parentObjectId":null,
   "persistent":false,
