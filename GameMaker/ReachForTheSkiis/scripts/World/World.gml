@@ -23,7 +23,7 @@ function World() constructor {
 		_inst.replication.network_id = _data.network_id;
 		_inst.replication.network_owner_id = _data.network_owner_id;
 		_inst.replication.update_replicated_variables(_data.state);		
-		_inst.replicated_proxy = true;
+		_inst.replication.replicated_proxy = true;
 		
 		if (is_struct(local_player_controller)) {
 			if (local_player_controller.replication.network_id == _inst.replication.network_owner_id) {

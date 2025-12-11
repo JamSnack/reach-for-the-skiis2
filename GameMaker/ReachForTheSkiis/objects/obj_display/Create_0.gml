@@ -16,4 +16,19 @@ window_set_rectangle(
 	_window_size.y
 );
 
-window_set_caption($"Reach For The Skiis [{window_id}]");
+function update_window_caption() {
+	var _window_id = obj_display.window_id;
+	var _is_server = false;
+	var _is_client = false;
+	
+	with (obj_network_session) {
+		_is_server = is_struct(server);
+		_is_client = is_struct(client);
+	}
+	
+	var _network_string = _is_server ? "Server" : "Client";
+
+	window_set_caption($"[ReachForTheSkiis][{_window_id}][{_network_string}]");	
+}
+
+update_window_caption();

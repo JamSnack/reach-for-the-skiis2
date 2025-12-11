@@ -1,6 +1,8 @@
 if (live_call()) return live_result;
 
-if (replication.controlled_proxy && window_has_focus()) {
+var _allow_input = replication.controlled_proxy && window_has_focus() && keyboard_check(vk_shift);
+
+if (_allow_input) {
 	var _ax = x - mouse_x;
 	var _ay = y - mouse_y;
 	var _mouse_direction = point_direction(x, y, mouse_x, mouse_y);
@@ -53,10 +55,10 @@ if (replication.controlled_proxy) {
 	min_speed = 1;
 	max_speed = 3;
 
-	var _dist_from_mouse = window_has_focus() ? point_distance(x, y, mouse_x, mouse_y) : 0;
+	var _dist_from_mouse = _allow_input ? point_distance(x, y, mouse_x, mouse_y) : 0;
 	var _speed_mod = clamp(_dist_from_mouse / 300, 0, 1);
 
-	var _applied_speed = window_has_focus() ? lerp(min_speed, max_speed, _speed_mod) : 0;
+	var _applied_speed = _allow_input ? lerp(min_speed, max_speed, _speed_mod) : 0;
 
 	var _travelling_up = mouse_y - y < 0;
 	if (_travelling_up) {
@@ -77,17 +79,17 @@ if (replication.controlled_proxy) {
 	velocity_z -= 0.1;
 	
 } else if (replication.replicated_proxy) {
-	x = (server_x - x) * 0.8;
+	x += (server_x - x) * 0.8;
 	if (abs(server_x - x) < 1) {
 		x = server_x;
 	}
 	
-	y = (server_y - y) * 0.8;
+	y += (server_y - y) * 0.8;
 	if (abs(server_y - y) < 1) {
 		y = server_y;
 	}
 	
-	z = (server_z - z) * 0.8;
+	z += (server_z - z) * 0.8;
 	if (abs(server_z - z) < 1) {
 		z = server_z;
 	}
