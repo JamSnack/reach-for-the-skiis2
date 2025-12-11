@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"server_commands",
+  "%Name":"boostrap_functions",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"server_commands",
+  "name":"boostrap_functions",
   "parent":{
-    "name":"ReachForTheSkiis",
-    "path":"ReachForTheSkiis.yyp",
+    "name":"Network",
+    "path":"folders/Network.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

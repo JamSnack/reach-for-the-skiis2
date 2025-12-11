@@ -6,10 +6,10 @@ function GameMode() constructor {
 	create_local_player = function(_local_client) {
 		log(log_category, "creating local player");
 		var _pc = new PlayerController();
-		_pc.controlled_proxy = true;
 		
 		array_push(player_controllers, _pc);
 		
+		global.world.local_player_controller = _pc;
 		global.world.register_network_object(_pc);
 		
 		handle_player_joined(_pc);
@@ -24,11 +24,12 @@ function GameMode() constructor {
 		
 		array_push(player_controllers, _pc);
 		
-		global.world.register_network_object(_pc);
+		global.world.register_network_object(_pc);	
+		global.world.send_assign_player_controller(_remote_client, _pc.replication.network_id);
+		global.world.send_world_replication_sync(_remote_client);
 		
 		handle_player_joined(_pc);
 		
-		global.world.send_client_entire_world_state(_remote_client);
 		
 		
 		return _pc;
@@ -37,12 +38,8 @@ function GameMode() constructor {
 	handle_player_joined = function(_player_controller) {
 		log(log_category, "creating avatar for player");
 		var _avatar = instance_create_depth(0, 0, 0, obj_player);
-		_avatar.controlled_proxy = _player_controller.controlled_proxy;
-		_avatar.replicated_proxy = _player_controller.replicated_proxy;
-		
-		
+		_avatar.replication.network_owner_id = _player_controller.replication.network_id;
 		_player_controller.avatar = _avatar;
-		_avatar.owning_controller = _player_controller;
 		
 		global.world.register_network_object(_avatar);
 	}

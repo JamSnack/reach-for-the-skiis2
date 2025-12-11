@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"GameMode",
   "parent":{
-    "name":"Network",
-    "path":"folders/Network.yy",
+    "name":"Game",
+    "path":"folders/Game.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

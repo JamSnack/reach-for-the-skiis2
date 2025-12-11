@@ -10,12 +10,16 @@ facing_direction = 0
 z = 0;
 velocity_z = 0;
 
+replication = new ObjectReplication();
 
-replicated_proxy = false;
-controlled_proxy = false;
+replication.add_variable("x", method(id, function() { return x; }), method(id, function(_x) { 
+	if (!replication.controlled_proxy) {
+		x = _x; 
+	}
+}));
 
-owning_controller = noone;
-
-replication = new ReplicatedVariableSet();
-replication.add_variable("x", method(id, function() { return x; }), method(id, function(_x) { x = _x; }));
-replication.add_variable("y", method(id, function() { return y; }), method(id, function(_y) { y = _y; }));
+replication.add_variable("y", method(id, function() { return y; }), method(id, function(_y) { 
+	if (!replication.controlled_proxy) {
+		y = _y;
+	}
+}));

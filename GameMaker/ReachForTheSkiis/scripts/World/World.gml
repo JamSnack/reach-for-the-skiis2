@@ -1,9 +1,11 @@
 function World() constructor {
 	network_id_counter = 0;
 	objects = [];
+	objects_lookup = {};
 	
 	client = noone;
 	server = noone;
+	local_player_controller = noone;
 	
 	function spawn_replicated_object(_data) {
 		var _inst = noone;
@@ -18,45 +20,102 @@ function World() constructor {
 			_inst = instance_create_depth(0, 0, 0, _data.object_index);	
 		}
 			
-		_inst.network_id = _data.network_id;
+		_inst.replication.network_id = _data.network_id;
+		_inst.replication.network_owner_id = _data.network_owner_id;
+		_inst.replication.update_replicated_variables(_data.state);		
 		_inst.replicated_proxy = true;
-		_inst.replication.update_replicated_variables(_data.state);	
+		
+		if (is_struct(local_player_controller)) {
+			if (local_player_controller.replication.network_id == _inst.replication.network_owner_id) {
+				_inst.replication.replicated_proxy = false;
+				_inst.replication.controlled_proxy = true;
+			}
+		}
+		
+		objects_lookup[$ _inst.replication.network_id] = _inst;
+		array_push(objects, _inst);
+	}
+	
+	function register_server(_server) {
+		server = _server;
+		
+		server.get_channel("world-replication-push-up", method(self, function(_data) {
+			var _inst = objects_lookup[$ _data.network_id];
+			
+			if (is_struct(_inst) || instance_exists(_inst)) {
+				_inst.replication.update_replicated_variables(_data.state);	
+			}
+		}));
 	}
 	
 	function register_client(_client) {
 		client = _client;
 		
-		client.get_channel("world-replication-spawn").on(method(self, function(_data) {
+		client.get_channel("assign-player-controller").on(method(self, function(_network_id) {
+			var _inst = objects_lookup[$ _network_id];
+	
+			_inst.replication.network_id = _network_id;
+			_inst.replication.owner_network_id = _network_id;
+			_inst.replication.replicated_proxy = false;
+			_inst.replication.controlled_proxy = true;
+			
+			local_player_controller = _inst;
+		}));
+		
+		client.get_channel("world-replication-sync").on(method(self, function(_objects_datas) {
 			if (is_struct(server)) {
 				// world is server and thus has already spawned the item
 				return;	
 			}
 			
-			spawn_replicated_object(_data);
-		}));
-		
-		client.get_channel("world-replication-sync").on(method(self, function(_objects) {
-			for (var _i = 0; _i < array_length(_objects); _i++) {
-				spawn_replicated_object(_objects[_i]);
+			for (var _i = 0; _i < array_length(_objects_datas); _i++) {
+				var _inst_data = _objects_datas[_i];
+				var _existing_instance = objects_lookup[$ _inst_data.network_id];
+				if (is_struct(_existing_instance) || instance_exists(_existing_instance)) {
+					
+					if (_inst_data.alive) {
+						_existing_instance.replication.update_replicated_variables(_inst_data.state);	
+					} else {
+						// to do: destroy network object
+					}
+				} else if (_inst_data.alive) {
+					spawn_replicated_object(_inst_data);	
+				}
 			}
 		}));
 	}
 	
 	function register_network_object(_instance) {
-		_instance.network_id = network_id_counter;
+		_instance.replication.network_id = network_id_counter;
 		network_id_counter++;
 		
+		objects_lookup[$ _instance.replication.network_id] = _instance;
 		array_push(objects, _instance);
 		
-		server.broadcast_to_clients("world-replication-spawn", {
+		_instance.replication.replicated_proxy = true;
+						
+		if (is_struct(local_player_controller)) {
+			if (local_player_controller.replication.network_id == _instance.replication.network_owner_id) {
+				_instance.replication.replicated_proxy = false;
+				_instance.replication.controlled_proxy = true;
+			}
+		}
+		
+		server.broadcast_to_clients("world-replication-sync", [{
 			struct_name: is_struct(_instance) ? instanceof(_instance) : undefined,
 			object_index: is_struct(_instance) ? undefined : _instance.object_index,
-			network_id: _instance.network_id,
+			network_id: _instance.replication.network_id,
+			network_owner_id: _instance.replication.network_owner_id,
+			alive: true,
 			state: _instance.replication.calculate_current_state()
-		});
+		}]);
 	}
 	
-	function send_client_entire_world_state(_client) {
+	function send_assign_player_controller(_client, _network_id) {
+		_client.enqueue_message("assign-player-controller", _network_id);
+	}
+	
+	function send_world_replication_sync(_client) {
 		var _object_datas = [];
 		
 		for (var _i = 0; _i < array_length(objects); _i++) {
@@ -64,7 +123,9 @@ function World() constructor {
 			var _data = {
 				struct_name: is_struct(_instance) ? instanceof(_instance) : undefined,
 				object_index: is_struct(_instance) ? undefined : _instance.object_index,
-				network_id: _instance.network_id,
+				network_id: _instance.replication.network_id,
+				network_owner_id: _instance.replication.network_owner_id,
+				alive: true,
 				state: _instance.replication.calculate_current_state()
 			};
 			array_push(_object_datas, _data);
@@ -74,18 +135,42 @@ function World() constructor {
 	}
 	
 	tick = function() {
-		//for (var _i = 0; _i < array_length(objects); _i++) {
-		//	var _inst = objects[_i];
+		if (is_struct(server)) {
+			var _updates = [];
+				
+			for (var _i = 0; _i < array_length(objects); _i++) {
+				var _instance = objects[_i];
+	
+				// todo - only send minimum state required for update instead of all current 
+				// calculated state
+				var _data = {
+					struct_name: is_struct(_instance) ? instanceof(_instance) : undefined,
+					object_index: is_struct(_instance) ? undefined : _instance.object_index,
+					network_id: _instance.replication.network_id,
+					network_owner_id: _instance.replication.network_owner_id,
+					alive: true,
+					state: _instance.replication.calculate_current_state()
+				};
 			
-		//	if (_inst.controlled_proxy && !is_struct(client.listen_server)) {
-		//		var _diff = _inst.replication.clear_diff();
-		//		if (is_struct(_diff)) {
-		//			client.get_channel("world-replication-update").send({
-		//				network_id: _inst.network_id,
-		//				updated_state: _diff
-		//			});
-		//		}
-		//	}
-		//}
+				array_push(_updates, _data);
+			}
+				
+			server.broadcast_to_clients("world-replication-sync", _updates);
+				
+		} else if(is_struct(client)) {
+			for (var _i = 0; _i < array_length(objects); _i++) {
+				var _inst = objects[_i];
+				if (_inst.replication.controlled_proxy) {
+					_inst.replication.update_controlled_variables();
+					var _diff = _inst.replication.clear_diff();
+					if (is_struct(_diff)) {
+						client.get_channel("world-replication-push-up").send({
+							network_id: _inst.replication.network_id,
+							state: _diff
+						});
+					}
+				}
+			}
+		}
 	}
 }

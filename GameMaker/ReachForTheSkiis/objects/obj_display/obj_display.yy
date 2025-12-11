@@ -8,8 +8,8 @@
   "name":"obj_display",
   "overriddenProperties":[],
   "parent":{
-    "name":"Player",
-    "path":"folders/Player.yy",
+    "name":"Game",
+    "path":"folders/Game.yy",
   },
   "parentObjectId":null,
   "persistent":true,

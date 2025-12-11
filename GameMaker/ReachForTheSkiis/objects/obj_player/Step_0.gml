@@ -1,6 +1,6 @@
 if (live_call()) return live_result;
 
-if (controlled_proxy) {
+if (replication.controlled_proxy && window_has_focus()) {
 	var _ax = x - mouse_x;
 	var _ay = y - mouse_y;
 	var _mouse_direction = point_direction(x, y, mouse_x, mouse_y);
@@ -48,15 +48,15 @@ switch(facing_direction) {
 	break;
 }
 
-if (controlled_proxy) {
+if (replication.controlled_proxy) {
 
 	min_speed = 1;
 	max_speed = 3;
 
-	var _dist_from_mouse = point_distance(x, y, mouse_x, mouse_y);
+	var _dist_from_mouse = window_has_focus() ? point_distance(x, y, mouse_x, mouse_y) : 0;
 	var _speed_mod = clamp(_dist_from_mouse / 300, 0, 1);
 
-	var _applied_speed = lerp(min_speed, max_speed, _speed_mod);
+	var _applied_speed = window_has_focus() ? lerp(min_speed, max_speed, _speed_mod) : 0;
 
 	var _travelling_up = mouse_y - y < 0;
 	if (_travelling_up) {
@@ -66,8 +66,10 @@ if (controlled_proxy) {
 	//if (_leaning_in_for_full_speed) {
 	//	_applied_speed *= 1.6;	
 	//}
-
-	var _mouse_direction = point_direction(x, y, mouse_x, mouse_y);
+	var _mouse_x = window_has_focus() ? mouse_x : x;
+	var _mouse_y = window_has_focus() ? mouse_y : y;
+	
+	var _mouse_direction = point_direction(x, y, _mouse_x, _mouse_y);
 	x += lengthdir_x(_applied_speed, _mouse_direction) * 1.5;
 	y += lengthdir_y(_applied_speed, _mouse_direction);
 
@@ -86,7 +88,7 @@ if (controlled_proxy) {
 
 
 	if (z <= 0) {
-		if (mouse_check_button_pressed(mb_left)) {
+		if (mouse_check_button_pressed(mb_left) && window_has_focus()) {
 			velocity_z = 3;
 		}
 	}

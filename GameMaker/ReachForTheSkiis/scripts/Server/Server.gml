@@ -38,7 +38,7 @@ function Server() constructor {
 		}
 	}
 
-	function flush_client_messages() {
+	function flush_message_queue() {
 		for (var _i = 0; _i < array_length(clients); _i++) {
 			clients[_i].flush_message_queue();
 		}

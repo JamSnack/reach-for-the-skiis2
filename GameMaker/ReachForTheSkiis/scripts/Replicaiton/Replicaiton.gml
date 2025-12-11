@@ -1,4 +1,9 @@
-function ReplicatedVariableSet() constructor {
+function ObjectReplication() constructor {
+	network_id = noone;
+	network_owner_id = noone;
+	replicated_proxy = false;
+	controlled_proxy = false;
+	
 	getters = [];
 	setters = {};
 	last_state = {};
@@ -48,6 +53,7 @@ function ReplicatedVariableSet() constructor {
 		if (last_diff_has_size) {
 			var _ret = last_diff;
 			last_diff = {};
+			last_diff_has_size = false;
 			return _ret;
 		} else {
 			return undefined;	
