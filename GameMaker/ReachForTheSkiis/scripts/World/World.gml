@@ -39,7 +39,7 @@ function World() constructor {
 	function register_server(_server) {
 		server = _server;
 		
-		server.get_channel("world-replication-push-up", method(self, function(_data) {
+		server.get_channel("world-replication-push-up").on(method(self, function(_client, _data) {
 			var _inst = objects_lookup[$ _data.network_id];
 			
 			if (is_struct(_inst) || instance_exists(_inst)) {

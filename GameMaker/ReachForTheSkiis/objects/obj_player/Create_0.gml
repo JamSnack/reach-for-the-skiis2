@@ -12,14 +12,26 @@ velocity_z = 0;
 
 replication = new ObjectReplication();
 
+server_x = x;
+server_y = y;
+server_z = z;
+
+
 replication.add_variable("x", method(id, function() { return x; }), method(id, function(_x) { 
-	if (!replication.controlled_proxy) {
-		x = _x; 
-	}
+	server_x = _x;
 }));
 
 replication.add_variable("y", method(id, function() { return y; }), method(id, function(_y) { 
-	if (!replication.controlled_proxy) {
-		y = _y;
+	server_y = _y;
+}));
+
+replication.add_variable("z", method(id, function() { return z; }), method(id, function(_z) { 
+	server_z = _z;
+}));
+
+replication.add_variable("facing_direction", method(id, function() { return facing_direction; }), method(id, function(_facing_direction) {
+	if (replication.replicated_proxy) {
+		facing_direction = _facing_direction;
+		log("temp", $"got server facing direction on client: {facing_direction}");
 	}
 }));

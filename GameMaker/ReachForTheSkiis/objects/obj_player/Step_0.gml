@@ -75,18 +75,35 @@ if (replication.controlled_proxy) {
 
 	z += velocity_z;
 	velocity_z -= 0.1;
-
-	if (z <= 0) {
-		velocity_z = 0;	
-		z = 0;
+	
+} else if (replication.replicated_proxy) {
+	x = (server_x - x) * 0.8;
+	if (abs(server_x - x) < 1) {
+		x = server_x;
 	}
-
-	if (z > 0) {
-		image_xscale = 1;
-		image_index = 3;
+	
+	y = (server_y - y) * 0.8;
+	if (abs(server_y - y) < 1) {
+		y = server_y;
 	}
+	
+	z = (server_z - z) * 0.8;
+	if (abs(server_z - z) < 1) {
+		z = server_z;
+	}
+}
 
+if (z <= 0) {
+	velocity_z = 0;	
+	z = 0;
+}
 
+if (z > 0) {
+	image_xscale = 1;
+	image_index = 3;
+}
+	
+if (replication.controlled_proxy) {
 	if (z <= 0) {
 		if (mouse_check_button_pressed(mb_left) && window_has_focus()) {
 			velocity_z = 3;

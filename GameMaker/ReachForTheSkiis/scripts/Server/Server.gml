@@ -51,15 +51,15 @@ function Server() constructor {
 		}
 	}
 	
-	function process_incoming_message_queue(_message_queue) {
+	function process_incoming_message_queue(_client, _message_queue) {
 		for (var _i = 0; _i < array_length(_message_queue); _i++) {
-			get_channel(_message_queue[_i].event_name).execute(_message_queue[_i].payload);	
+			get_channel(_message_queue[_i][0]).receive(_client, _message_queue[_i][1]);	
 		}
 	}
 	
 	function get_channel(_event) {
 		if (event_channels[$ _event] == undefined) {
-			event_channels[$ _event] = new Delegate();
+			event_channels[$ _event] = new ServerNetworkDelegate();
 		}
 	
 		return event_channels[$ _event];
@@ -82,12 +82,14 @@ function ServerClient() constructor {
 	
 	function flush_message_queue() {
 		if (socket != noone) {
-			var _string = json_stringify(message_queue);
+			if (array_length(message_queue) > 0) {
+				var _string = json_stringify(message_queue);
 	
-			buffer_seek(write_buffer, 0, 0);
-			buffer_write(write_buffer, buffer_string, _string);
+				buffer_seek(write_buffer, 0, 0);
+				buffer_write(write_buffer, buffer_string, _string);
 	
-			network_send_packet(socket, write_buffer, buffer_tell(write_buffer));
+				network_send_packet(socket, write_buffer, buffer_tell(write_buffer));
+			}
 		} else if (local_client != noone) {
 			local_client.process_incoming_message_queue(message_queue);
 		}

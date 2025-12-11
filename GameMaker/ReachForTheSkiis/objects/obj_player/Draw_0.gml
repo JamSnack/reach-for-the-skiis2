@@ -20,15 +20,16 @@ if (replication.controlled_proxy) {
 	draw_line(x, y, mouse_x, mouse_y);
 
 	draw_set_alpha(1);
+}
 
-	if (z > 0) {
-		draw_set_color(c_black);
-		draw_set_alpha(0.2);
-		var _size_min = 0;
-		var _size_max = 6;
+if (z > 0) {
+	draw_set_color(c_black);
+	draw_set_alpha(0.2);
+	var _size_min = 0;
+	var _size_max = 6;
 	
-		var _t = clamp(z/50, 0, 1);
+	var _t = clamp(z/50, 0, 1);
 	
-		draw_circle(x, y + 12, lerp(_size_min, _size_max, _t), false);	
-	}
+	draw_circle(x, y + 12, lerp(_size_min, _size_max, _t), false);	
+	draw_set_alpha(1);
 }

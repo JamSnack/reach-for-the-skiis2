@@ -1,5 +1,5 @@
 function Client() constructor {
-socket = network_create_socket(network_socket_tcp);
+	socket = noone;
 	log_category = "client";
 
 	listen_server = noone;
@@ -11,19 +11,12 @@ socket = network_create_socket(network_socket_tcp);
 	
 	function connect(url = "localhost") { 
 		log(log_category, "client attempting to connect to server:");
+		socket = network_create_socket(network_socket_tcp);
 		network_connect(socket, url, 666);
 	}
 
 	function connect_listen_server(_server) {
 		listen_server = _server;	
-	}
-
-	function handle_http_connected() {
-		log(log_category, "client connected");
-	}
-
-	function handle_http_disconnected() {
-		log(log_category, "client disconnected");	
 	}
 
 	function get_channel(_event) {
@@ -43,14 +36,16 @@ socket = network_create_socket(network_socket_tcp);
 	
 	function flush_message_queue() {
 		if (socket != noone) {
-			var _string = json_stringify(message_queue);
+			if (array_length(message_queue) > 0) {
+				var _string = json_stringify(message_queue);
 	
-			buffer_seek(write_buffer, 0, 0);
-			buffer_write(write_buffer, buffer_string, _string);
+				buffer_seek(write_buffer, 0, 0);
+				buffer_write(write_buffer, buffer_string, _string);
 	
-			network_send_packet(socket, write_buffer, buffer_tell(write_buffer));
+				network_send_packet(socket, write_buffer, buffer_tell(write_buffer));
+			}
 		} else if (listen_server != noone) {
-			listen_server.process_incoming_message_queue(message_queue);
+			listen_server.process_incoming_message_queue(self, message_queue);
 		}
 		
 		array_resize(message_queue, 0);
